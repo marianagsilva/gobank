@@ -6,58 +6,26 @@ import (
 	"github.com/banco/contas"
 )
 
+func PagarBoleto(conta verificarConta, valorBoleto float64) {
+	conta.Sacar(valorBoleto)
+}
+
+type verificarConta interface {
+	Sacar(valor float64) string
+}
+
 func main() {
+	contaDenis := contas.ContaPoupanca{}
+	contaDenis.Depositar(100)
+	contaDenis.Sacar(5000)
 
-	var contaGuilherme ContaCorrente = ContaCorrente{ //contaGuilherme := ContaCorrente{}
-		Titular:       "Guilherme",
-		NumeroAgencia: 589,
-		NumeroConta:   12345,
-		Saldo:         125.5,
-	}
+	PagarBoleto(&contaDenis, 60)
 
-	var contaGuilherme2 ContaCorrente = ContaCorrente{ //contaGuilherme := ContaCorrente{}
-		Titular:       "Guilherme",
-		NumeroAgencia: 580,
-		NumeroConta:   12345,
-		Saldo:         125.5,
-	}
-	fmt.Println(contaGuilherme == contaGuilherme2)
+	contaLuisa := contas.ContaCorrente{}
+	contaLuisa.Depositar(500)
+	PagarBoleto(&contaLuisa, -400)
 
-	contaBruna := contas.ContaCorrente{"Bruna", 222, 1112223, 200} // mesma coisa que acima, declaração curta
-	contaBruna2 := contas.ContaCorrente{"Bruna", 222, 1112223, 200}
-
-	fmt.Println(contaBruna == contaBruna2)
-
-	var contaCris *ContaCorrente
-	contaCris = new(ContaCorrente)
-	contaCris.Titular = "Cris"
-	contaCris.Saldo = 500
-
-	var contaCris2 *ContaCorrente
-	contaCris2 = new(ContaCorrente)
-	contaCris2.Titular = "Cris"
-	contaCris2.Saldo = 500
-
-	fmt.Println(*contaCris == *contaCris2)
-	fmt.Println(contaCris2)
-
-	contaSilvia := ContaCorrente{}
-	contaSilvia.titular = "Silvia"
-	contaSilvia.Saldo = 500
-
-	fmt.Println(contaSilvia.saldo)
-	fmt.Println(contaSilvia.Depositar(2500))
-	//fmt.Println(contaSilvia.Sacar(300))
-
-	contaSilvia = ContaCorrente{titular: "Silvia", saldo: 300}
-	contaGustavo := ContaCorrente{titular: "Gustavo", saldo: 100}
-
-	status := contaSilvia.Transferir(200, &contaGustavo)
-
-	fmt.Println(" ")
-	fmt.Println("Transferência")
-	fmt.Println(status)
-	fmt.Println(contaSilvia)
-	fmt.Println(contaGustavo)
+	fmt.Println(contaDenis)
+	fmt.Println(contaLuisa)
 
 }
